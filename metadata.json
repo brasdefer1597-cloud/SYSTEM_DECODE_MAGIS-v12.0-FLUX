@@ -1,0 +1,8 @@
+{
+  "name": "SYSTEM_DECODE_MAGIS // v12.0 FLUX",
+  "description": "A cyberpunk OS dashboard integrating Gemini's advanced multimodal capabilities including Veo video generation, Live API, and reasoning models.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
