@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { getLiveClient } from '../services/geminiService';
+import { getLiveClient } from '../../services/geminiService';
 import { Modality } from "@google/genai";
 import { Mic, MicOff, Radio, Volume2 } from 'lucide-react';
 

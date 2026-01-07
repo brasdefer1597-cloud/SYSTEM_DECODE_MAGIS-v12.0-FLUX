@@ -1,260 +1,140 @@
 import React, { useState, useEffect } from 'react';
-import Window from './components/Window';
-import DesktopIcon from './components/DesktopIcon';
-import MatrixAnalyzer from './components/MatrixAnalyzer';
-import Terminal from './components/Terminal';
-import DeploymentAnalyzer from './components/DeploymentAnalyzer';
-import MediaStudio from './components/MediaStudio';
-import LiveConversation from './components/LiveConversation';
+import { Terminal as TerminalIcon, Cpu, Globe, MessageSquare, Play } from 'lucide-react';
+
+import Window from './modules/Ballerina/Window';
+import DesktopIcon from './modules/Ballerina/DesktopIcon';
+import MatrixAnalyzer from './modules/Malandra/MatrixAnalyzer';
+import Terminal from './modules/Chola/Terminal';
+import DeploymentAnalyzer from './modules/Malandra/DeploymentAnalyzer';
+import MediaStudio from './modules/Fresa/MediaStudio';
+import LiveConversation from './modules/Folklorico/LiveConversation';
+
 import { WindowState, MatrixStats } from './types';
-import { Radar, Terminal as TerminalIcon, Cpu, Video, Mic, Sparkles, Info } from 'lucide-react';
 import { playWindowOpen, playWindowClose, playWindowMinimize } from './services/soundService';
 
-// Canvas Particle Background
-const ParticleBackground = () => {
-    const canvasRef = React.useRef<HTMLCanvasElement>(null);
-    useEffect(() => {
-        const canvas = canvasRef.current;
-        if (!canvas) return;
-        const ctx = canvas.getContext('2d');
-        if (!ctx) return;
-        
-        let animationFrameId: number;
-        let particles: any[] = [];
-        
-        const resize = () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        };
-        window.addEventListener('resize', resize);
-        resize();
-
-        class Particle {
-            x: number; y: number; vx: number; vy: number; size: number; color: string;
-            constructor() {
-                this.x = Math.random() * canvas!.width;
-                this.y = Math.random() * canvas!.height;
-                this.vx = (Math.random() - 0.5) * 1.5;
-                this.vy = (Math.random() - 0.5) * 1.5;
-                this.size = Math.random() * 2 + 1;
-                this.color = Math.random() > 0.5 ? 'rgba(255, 215, 0, 0.5)' : 'rgba(0, 255, 255, 0.5)';
-            }
-            update() {
-                this.x += this.vx;
-                this.y += this.vy;
-                if (this.x < 0 || this.x > canvas!.width) this.vx *= -1;
-                if (this.y < 0 || this.y > canvas!.height) this.vy *= -1;
-            }
-            draw() {
-                if(!ctx) return;
-                ctx.fillStyle = this.color;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
-            }
-        }
-
-        for (let i = 0; i < 60; i++) particles.push(new Particle());
-
-        const animate = () => {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(p => {
-                p.update();
-                p.draw();
-            });
-            // Connections
-            particles.forEach((p, i) => {
-                for (let j = i; j < particles.length; j++) {
-                    const dx = p.x - particles[j].x;
-                    const dy = p.y - particles[j].y;
-                    const dist = Math.sqrt(dx * dx + dy * dy);
-                    if (dist < 100) {
-                        ctx.strokeStyle = `rgba(100, 100, 100, ${1 - dist / 100})`;
-                        ctx.lineWidth = 0.5;
-                        ctx.beginPath();
-                        ctx.moveTo(p.x, p.y);
-                        ctx.lineTo(particles[j].x, particles[j].y);
-                        ctx.stroke();
-                    }
-                }
-            });
-            animationFrameId = requestAnimationFrame(animate);
-        };
-        animate();
-
-        return () => {
-            window.removeEventListener('resize', resize);
-            cancelAnimationFrame(animationFrameId);
-        };
-    }, []);
-    return <canvas ref={canvasRef} className="absolute inset-0 z-0 pointer-events-none" />;
-};
-
 const App: React.FC = () => {
-    // Initial Window States
-    const [windows, setWindows] = useState<WindowState[]>([
-        { id: 'chalamandra', title: 'CHALAMANDRA_CORE.exe', isOpen: true, zIndex: 10, position: { x: 100, y: 50 }, isMinimized: false, type: 'CHALAMANDRA' },
-        { id: 'matrix', title: 'MATRIX_ANALYZER_360.exe', isOpen: false, zIndex: 11, position: { x: 150, y: 80 }, isMinimized: false, type: 'MATRIX' },
-        { id: 'terminal', title: 'FLOW_LOG.sh', isOpen: false, zIndex: 12, position: { x: 200, y: 150 }, isMinimized: false, type: 'TERMINAL' },
-        { id: 'cicd', title: 'DEPLOYMENT_ANALYZER.sh', isOpen: false, zIndex: 13, position: { x: 400, y: 100 }, isMinimized: false, type: 'CICD' },
-        { id: 'media', title: 'MEDIA_STUDIO.bin', isOpen: false, zIndex: 14, position: { x: 500, y: 50 }, isMinimized: false, type: 'MEDIA' },
-        { id: 'live', title: 'NEURAL_LINK.live', isOpen: false, zIndex: 15, position: { x: 600, y: 200 }, isMinimized: false, type: 'LIVE' },
-        { id: 'about', title: 'SYSTEM_SPECS.nfo', isOpen: false, zIndex: 16, position: { x: 300, y: 150 }, isMinimized: false, type: 'ABOUT' },
-    ]);
+  const [windows, setWindows] = useState<WindowState[]>([
+    { id: 'terminal', title: 'SYSTEM_ROOT // TERMINAL', isOpen: true, isMinimized: false, zIndex: 1, type: 'terminal' },
+    { id: 'matrix', title: 'MATRIX_ANALYZER // V2.0', isOpen: false, isMinimized: false, zIndex: 2, type: 'matrix' },
+    { id: 'deploy', title: 'DEPLOYMENT_OPS // GLOBAL', isOpen: false, isMinimized: false, zIndex: 3, type: 'deploy' },
+    { id: 'media', title: 'MEDIA_STUDIO // FLUX', isOpen: false, isMinimized: false, zIndex: 4, type: 'media' },
+    { id: 'chat', title: 'LIVE_UPLINK // SECURE', isOpen: false, isMinimized: false, zIndex: 5, type: 'chat' },
+  ]);
 
-    // Shared State for Matrix
-    const [stats, setStats] = useState<MatrixStats>({ s: 50, e: 50, c: 50, m: 50 });
+  const [activeWindow, setActiveWindow] = useState<string | null>('terminal');
 
-    const getMaxZ = () => Math.max(...windows.map(w => w.zIndex), 10);
+  // Stats state for passing between components
+  const [stats, setStats] = useState<MatrixStats>({
+    activeNodes: 0,
+    threatLevel: 'LOW',
+    systemIntegrity: 100,
+    networkLoad: 0
+  });
 
-    const toggleWindow = (id: string) => {
-        const target = windows.find(w => w.id === id);
-        if (target) {
-            if (target.isOpen && !target.isMinimized) playWindowMinimize();
-            else playWindowOpen();
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setStats(prev => ({
+        activeNodes: Math.floor(Math.random() * 1000) + 500,
+        threatLevel: Math.random() > 0.9 ? 'HIGH' : Math.random() > 0.7 ? 'MED' : 'LOW',
+        systemIntegrity: Math.max(0, Math.min(100, prev.systemIntegrity + (Math.random() * 2 - 1))),
+        networkLoad: Math.floor(Math.random() * 100)
+      }));
+    }, 2000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const toggleWindow = (id: string) => {
+    setWindows(prev => {
+      const window = prev.find(w => w.id === id);
+      if (window?.isOpen) {
+        if (window.id === activeWindow) {
+          playWindowMinimize();
+          return prev.map(w => w.id === id ? { ...w, isMinimized: !w.isMinimized } : w);
+        } else {
+          setActiveWindow(id);
+          return prev.map(w => ({ ...w, zIndex: w.id === id ? 100 : 1 }));
         }
+      } else {
+        playWindowOpen();
+        setActiveWindow(id);
+        return prev.map(w => w.id === id ? { ...w, isOpen: true, isMinimized: false, zIndex: 100 } : { ...w, zIndex: 1 });
+      }
+    });
+  };
 
-        setWindows(prev => prev.map(w => {
-            if (w.id === id) {
-                if (w.isOpen && !w.isMinimized) return { ...w, isMinimized: true }; // If open, minimize
-                if (w.isOpen && w.isMinimized) return { ...w, isMinimized: false, zIndex: getMaxZ() + 1 }; // Restore
-                return { ...w, isOpen: true, zIndex: getMaxZ() + 1 }; // Open
-            }
-            return w;
-        }));
-    };
+  const closeWindow = (id: string) => {
+    playWindowClose();
+    setWindows(prev => prev.map(w => w.id === id ? { ...w, isOpen: false } : w));
+    if (activeWindow === id) setActiveWindow(null);
+  };
 
-    const bringToFront = (id: string) => {
-        // No sound on just focus
-        setWindows(prev => prev.map(w => w.id === id ? { ...w, zIndex: getMaxZ() + 1 } : w));
-    };
+  const bringToFront = (id: string) => {
+    setActiveWindow(id);
+    setWindows(prev => prev.map(w => ({ ...w, zIndex: w.id === id ? 100 : 1 })));
+  };
 
-    const closeWindow = (id: string) => {
-        playWindowClose();
-        setWindows(prev => prev.map(w => w.id === id ? { ...w, isOpen: false } : w));
-    };
+  return (
+    <div className="min-h-screen bg-bg-dark text-white font-rajdhani overflow-hidden relative selection:bg-neon-gold selection:text-black">
+      {/* Background Grid Animation */}
+      <div className="absolute inset-0 pointer-events-none opacity-20"
+           style={{
+             backgroundImage: 'linear-gradient(rgba(0, 255, 0, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 255, 0, 0.1) 1px, transparent 1px)',
+             backgroundSize: '30px 30px'
+           }}>
+      </div>
 
-    const minimizeWindow = (id: string) => {
-         playWindowMinimize();
-         setWindows(prev => prev.map(w => w.id === id ? { ...w, isMinimized: true } : w));
-    };
+      {/* Scanline Effect */}
+      <div className="absolute inset-0 pointer-events-none bg-[url('https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3Z5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7TKSjRrfIPjeiVyM/giphy.gif')] opacity-[0.03] bg-repeat"></div>
 
-    return (
-        <div className="relative w-screen h-screen bg-bg-dark text-white overflow-hidden font-rajdhani">
-            <ParticleBackground />
-            
-            {/* Top HUD */}
-            <div className="relative z-50 flex justify-between items-center px-6 py-2 bg-black/80 border-b-2 border-neon-purple backdrop-blur-md shadow-glow-purple">
-                <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 rounded-full bg-neon-cyan animate-pulse shadow-glow-cyan"></div>
-                    <span className="font-mono text-neon-cyan tracking-widest">SYSTEM_READY</span>
-                </div>
-                <div className="font-mono text-neon-purple animate-pulse">
-                     MAGIS_OS // v12.0 FLUX
-                </div>
-                <div className="font-mono text-neon-gold text-sm">USER: ELITE_1_PERCENT</div>
-            </div>
+      {/* Desktop Icons */}
+      <div className="absolute top-10 left-10 flex flex-col gap-6 z-0">
+        <DesktopIcon icon={<TerminalIcon />} label="TERMINAL" onClick={() => toggleWindow('terminal')} />
+        <DesktopIcon icon={<Cpu />} label="MATRIX" onClick={() => toggleWindow('matrix')} />
+        <DesktopIcon icon={<Globe />} label="DEPLOY" onClick={() => toggleWindow('deploy')} />
+        <DesktopIcon icon={<Play />} label="MEDIA" onClick={() => toggleWindow('media')} />
+        <DesktopIcon icon={<MessageSquare />} label="UPLINK" onClick={() => toggleWindow('chat')} />
+      </div>
 
-            {/* Desktop Area */}
-            <div className="relative w-full h-full">
-                
-                {/* Windows */}
-                {windows.map(win => (
-                    <Window
-                        key={win.id}
-                        id={win.id}
-                        title={win.title}
-                        isOpen={win.isOpen}
-                        isMinimized={win.isMinimized}
-                        zIndex={win.zIndex}
-                        initialPosition={win.position}
-                        onClose={() => closeWindow(win.id)}
-                        onMinimize={() => minimizeWindow(win.id)}
-                        onFocus={() => bringToFront(win.id)}
-                        color={win.type === 'MATRIX' ? 'gold' : win.type === 'CICD' ? 'green' : win.type === 'MEDIA' ? 'red' : win.type === 'LIVE' ? 'cyan' : win.type === 'ABOUT' ? 'gold' : 'purple'}
-                        icon={
-                            win.type === 'MATRIX' ? <Radar size={18}/> : 
-                            win.type === 'CICD' ? <Cpu size={18}/> :
-                            win.type === 'MEDIA' ? <Video size={18}/> :
-                            win.type === 'LIVE' ? <Mic size={18}/> :
-                            win.type === 'ABOUT' ? <Info size={18}/> :
-                            win.type === 'TERMINAL' ? <TerminalIcon size={18}/> : <Sparkles size={18}/>
-                        }
-                    >
-                        {win.type === 'CHALAMANDRA' && (
-                            <div className="flex flex-col items-center gap-4 text-center">
-                                <img 
-                                    src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEigiwRJJirRe5xXGe0X7D0vp1DmYEtQ5t16dh_cEIqaoe50DEfNzH32reGZYyKt2S3uqDSHivIM_OVlyyqKIDcvaWBND2jwGuo6xrsyKuSnagTkW0wOVJ5SaZBg092HlS0rZI_latqSGCS6QFBPjr0R3TMag58NArrFmPFKdewAdGwoTjo8ZwD04zS5a5_j/s512/1000024976.gif"
-                                    alt="Chalamandra Core"
-                                    className="w-32 h-32 rounded-full border-4 border-neon-red shadow-[0_0_30px_#ff0055] object-cover animate-pulse"
-                                />
-                                <div className="text-4xl text-neon-purple animate-pulse text-shadow-glow">MAGIS CORE</div>
-                                <div className="text-sm font-mono text-white/70">ACCESS LEVEL: UNRESTRICTED</div>
-                                <div className="grid grid-cols-2 gap-4 w-full mt-4">
-                                     <button onClick={() => toggleWindow('matrix')} className="p-4 border border-neon-gold text-neon-gold hover:bg-neon-gold hover:text-black font-bold font-mono transition-all">MATRIX</button>
-                                     <button onClick={() => toggleWindow('cicd')} className="p-4 border border-neon-green text-neon-green hover:bg-neon-green hover:text-black font-bold font-mono transition-all">CI/CD</button>
-                                     <button onClick={() => toggleWindow('media')} className="p-4 border border-neon-red text-neon-red hover:bg-neon-red hover:text-black font-bold font-mono transition-all">STUDIO</button>
-                                     <button onClick={() => toggleWindow('live')} className="p-4 border border-neon-cyan text-neon-cyan hover:bg-neon-cyan hover:text-black font-bold font-mono transition-all">LINK</button>
-                                </div>
-                            </div>
-                        )}
-                        {win.type === 'MATRIX' && <MatrixAnalyzer stats={stats} setStats={setStats} />}
-                        {win.type === 'TERMINAL' && <Terminal />}
-                        {win.type === 'CICD' && <DeploymentAnalyzer stats={stats} />}
-                        {win.type === 'MEDIA' && <MediaStudio />}
-                        {win.type === 'LIVE' && <LiveConversation />}
-                        {win.type === 'ABOUT' && (
-                            <div className="flex flex-col gap-6 p-2 font-mono text-sm">
-                                <div className="border-2 border-neon-gold p-4 bg-neon-gold/5 shadow-glow-gold relative overflow-hidden">
-                                    <div className="absolute top-0 right-0 p-1 bg-neon-gold text-black text-xs font-bold">ALPHA BUILD</div>
-                                    <h1 className="text-2xl font-bold text-neon-gold mb-1">SYSTEM_DECODE_MAGIS</h1>
-                                    <p className="text-neon-gold/80">VERSION: 12.0 FLUX</p>
-                                    <p className="text-white/60 text-xs mt-2">ID: 8823-X99-MAGIS</p>
-                                </div>
+      {/* Windows */}
+      {windows.map(window => (
+        window.isOpen && !window.isMinimized && (
+          <Window
+            key={window.id}
+            title={window.title}
+            isActive={activeWindow === window.id}
+            onClose={() => closeWindow(window.id)}
+            onClick={() => bringToFront(window.id)}
+            zIndex={window.zIndex}
+          >
+            {window.type === 'terminal' && <Terminal />}
+            {window.type === 'matrix' && <MatrixAnalyzer stats={stats} />}
+            {window.type === 'deploy' && <DeploymentAnalyzer />}
+            {window.type === 'media' && <MediaStudio />}
+            {window.type === 'chat' && <LiveConversation />}
+          </Window>
+        )
+      ))}
 
-                                <div className="grid grid-cols-2 gap-4">
-                                    <div>
-                                        <h2 className="text-neon-purple font-bold mb-2 border-b border-neon-purple/50 pb-1">NEURAL CORES</h2>
-                                        <ul className="space-y-2 text-white/80 text-xs">
-                                            <li className="flex items-center gap-2"><div className="w-1 h-1 bg-neon-purple"></div>Gemini 2.5 Flash (Core)</li>
-                                            <li className="flex items-center gap-2"><div className="w-1 h-1 bg-neon-purple"></div>Gemini 3.0 Pro (Thinking)</li>
-                                            <li className="flex items-center gap-2"><div className="w-1 h-1 bg-neon-purple"></div>Veo 3.1 (Generative Video)</li>
-                                            <li className="flex items-center gap-2"><div className="w-1 h-1 bg-neon-purple"></div>Imagen 3 (Visual Synth)</li>
-                                        </ul>
-                                    </div>
-                                    <div>
-                                        <h2 className="text-neon-cyan font-bold mb-2 border-b border-neon-cyan/50 pb-1">SYSTEM SPECS</h2>
-                                        <ul className="space-y-2 text-white/80 text-xs">
-                                            <li className="flex items-center gap-2"><div className="w-1 h-1 bg-neon-cyan"></div>Latency: &lt;50ms</li>
-                                            <li className="flex items-center gap-2"><div className="w-1 h-1 bg-neon-cyan"></div>Audio: 24kHz PCM</li>
-                                            <li className="flex items-center gap-2"><div className="w-1 h-1 bg-neon-cyan"></div>Encryption: Quantum-Safe</li>
-                                            <li className="flex items-center gap-2"><div className="w-1 h-1 bg-neon-cyan"></div>Uptime: 99.99%</li>
-                                        </ul>
-                                    </div>
-                                </div>
-
-                                <div className="text-center text-xs text-gray-500 border-t border-gray-800 pt-4">
-                                    <p>ARCHITECTED BY ELITE 1%</p>
-                                    <p className="mt-1 opacity-50">UNAUTHORIZED ACCESS IS A FELONY UNDER CYBER-LAW 77.</p>
-                                </div>
-                            </div>
-                        )}
-                    </Window>
-                ))}
-
-            </div>
-
-            {/* Dock */}
-            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-6 z-50">
-                 <DesktopIcon label="MATRIX" icon={<Radar />} colorClass="border-neon-gold shadow-neon-gold text-neon-gold" onClick={() => toggleWindow('matrix')} />
-                 <DesktopIcon label="DEPLOY" icon={<Cpu />} colorClass="border-neon-green shadow-neon-green text-neon-green" onClick={() => toggleWindow('cicd')} />
-                 <DesktopIcon label="STUDIO" icon={<Video />} colorClass="border-neon-red shadow-neon-red text-neon-red" onClick={() => toggleWindow('media')} />
-                 <DesktopIcon label="LINK" icon={<Mic />} colorClass="border-neon-cyan shadow-neon-cyan text-neon-cyan" onClick={() => toggleWindow('live')} />
-                 <DesktopIcon label="TERM" icon={<TerminalIcon />} colorClass="border-neon-purple shadow-neon-purple text-neon-purple" onClick={() => toggleWindow('terminal')} />
-                 <DesktopIcon label="INFO" icon={<Info />} colorClass="border-white shadow-white text-white" onClick={() => toggleWindow('about')} />
-            </div>
+      {/* Taskbar */}
+      <div className="fixed bottom-0 left-0 right-0 h-12 bg-glass-bg border-t border-neon-gold flex items-center px-4 gap-2 z-[1000] backdrop-blur-sm">
+        <div className="font-mono text-neon-gold mr-4 text-xl tracking-widest font-bold">DECO_X //</div>
+        {windows.map(window => (
+          window.isOpen && (
+            <button
+              key={window.id}
+              onClick={() => toggleWindow(window.id)}
+              className={`px-4 py-1 border ${activeWindow === window.id ? 'bg-neon-gold text-black border-neon-gold shadow-glow-gold' : 'border-gray-600 text-gray-400 hover:border-neon-gold hover:text-neon-gold'} font-mono text-sm transition-all duration-300 uppercase`}
+            >
+              {window.id}
+            </button>
+          )
+        ))}
+        <div className="ml-auto font-mono text-neon-cyan animate-pulse">
+          {stats.threatLevel} :: {new Date().toLocaleTimeString()}
         </div>
-    );
+      </div>
+    </div>
+  );
 };
 
 export default App;

@@ -25,6 +25,12 @@ export default defineConfig(({ mode }) => {
             main: path.resolve(__dirname, 'index.html'),
             demo: path.resolve(__dirname, 'demo.html'),
           },
+          output: {
+            manualChunks: {
+              vendor: ['react', 'react-dom', 'lucide-react'],
+              genai: ['@google/genai'],
+            }
+          }
         },
       },
     };
