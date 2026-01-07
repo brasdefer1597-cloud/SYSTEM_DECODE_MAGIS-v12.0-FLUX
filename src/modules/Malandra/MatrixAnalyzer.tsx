@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { generateTextFast } from '../services/geminiService';
-import { MatrixStats } from '../types';
+import { generateTextFast } from '../../services/geminiService';
+import { MatrixStats } from '../../types';
 
 interface MatrixAnalyzerProps {
   stats: MatrixStats;

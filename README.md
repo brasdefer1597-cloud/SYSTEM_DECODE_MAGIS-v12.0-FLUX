@@ -1,92 +1,111 @@
+# CHALAMANDRA MAGISTRAL DECOX // v12.0 FLUX
 
-# SYSTEM_DECODE_MAGIS // v12.0 FLUX
+**Arquitectura Cuántica Inversa | Sistema Modular Vivo | SRAP (Symmetry, Resilience, Adaptability, Performance)**
 
-Welcome, operator. You've accessed SYSTEM_DECODE_MAGIS, a hyper-stylized, cyberpunk OS dashboard demonstrating the advanced multimodal and reasoning capabilities of the Google Gemini API family.
+> "Donde el código baila y la lógica se deconstruye para crear."
 
-![SYSTEM_DECODE_MAGIS Screenshot](https://raw.githubusercontent.com/google/generative-ai-docs/main/static/files/system-decode-magis.png)
+Este repositorio contiene **Chalamandra Magistral DecoX**, un sistema full-stack diseñado bajo los principios de la arquitectura Chola Malandra: robusto, elegante y preparado para el caos. Cada módulo es un ente autónomo que contribuye a la sinfonía global.
 
-## Core Mandate
+## 🧬 Estructura Modular
 
-This project serves as an interactive showcase for integrating various Gemini models into a cohesive, immersive user interface. It moves beyond simple chat prompts to create a functional, thematic desktop environment where each application is powered by a specific facet of Gemini's power.
+El sistema está dividido en núcleos de procesamiento especializados:
 
----
+*   **CHOLA** (`/src/modules/Chola`): El núcleo duro. Infraestructura base, terminales de comando y utilidades de bajo nivel.
+*   **FRESA** (`/src/modules/Fresa`): La capa estética. Media Studio, generación de arte, interfaz visual pulida.
+*   **MALANDRA** (`/src/modules/Malandra`): Inteligencia operativa. Análisis de matrices, despliegues, seguridad y hacking ético.
+*   **BALLERINA** (`/src/modules/Ballerina`): Orquestación UI. Ventanas, iconos y elementos que danzan en la pantalla.
+*   **BALLET** (`/src/modules/Ballet`): La composición final. El core que une todo (`App.tsx`, `index.tsx`).
+*   **FOLKLÓRICO** (`/src/modules/Folklorico`): La voz del sistema. Conversación en vivo, logs, historia y tradición oral.
 
-## Deployed Modules & Neural Cores
+## 🧜‍♀️ Diagrama de Flujo (Mermaid)
 
-The OS environment features multiple windows, each acting as a standalone application powered by Gemini.
+```mermaid
+graph TD
+    User((Usuario)) --> |Interacts| B[Ballerina UI Layer]
+    B --> |Orchestrates| C[Ballet Core]
 
-*   **CHALAMANDRA_CORE:** The central hub, providing access to all other system modules.
-*   **MATRIX_ANALYZER:** A strategic planning interface using `gemini-2.5-flash-lite` for rapid analysis and action plan generation based on user-defined metrics.
-*   **DEPLOYMENT_ANALYZER:** A deep-dive diagnostic tool that leverages the maximum reasoning capacity of `gemini-3-pro-preview` (with a 32k token thinking budget) to perform complex risk assessments.
-*   **MEDIA_STUDIO:** A complete multimodal creation suite:
-    *   **VEO VIDEO:** Generates 720p video from text prompts using the `veo-3.1-fast-generate-preview` model.
-    *   **IMAGEN PRO:** Creates high-fidelity images up to 4K using `gemini-3-pro-image-preview`.
-    *   **VOICE SYNTH:** Synthesizes speech with `gemini-2.5-flash-preview-tts`.
-    *   **VIDEO IQ:** Analyzes video files with the multimodal understanding of `gemini-3-pro-preview`.
-*   **NEURAL_LINK:** A real-time, low-latency voice conversation module using the `gemini-2.5-flash-native-audio-preview-09-2025` model via the Live API.
-*   **FLOW_LOG (Terminal):** A command-line interface for direct interaction with `gemini-2.5-flash-lite`, including Google Search grounding for up-to-date information.
-*   **SYSTEM_SPECS:** An 'About' window detailing the models and technologies powering the OS.
+    subgraph "Módulos Vivos"
+        C --> |Commands| CH[Chola Terminal]
+        C --> |Visuals| FR[Fresa Studio]
+        C --> |Intelligence| MA[Malandra Ops]
+        C --> |Voice| FO[Folklórico Comms]
+    end
 
----
+    MA --> |Analyzes| EXT[External APIs / Gemini]
+    FR --> |Generates| EXT
+    FO --> |Streams| EXT
 
-## System Architecture
+    classDef chola fill:#000,stroke:#fff,stroke-width:2px;
+    classDef fresa fill:#ff00ff,stroke:#fff,stroke-width:2px;
+    classDef malandra fill:#FFD700,stroke:#000,stroke-width:2px;
+    classDef ballerina fill:#00ffff,stroke:#000,stroke-width:2px;
 
-*   **Framework:** React 19 (via CDN importmap)
-*   **Language:** TypeScript
-*   **Styling:** Tailwind CSS (JIT via CDN)
-*   **AI:** Google Gemini API (`@google/genai`)
-*   **Icons:** Lucide React
-*   **Environment:** No build step required; runs directly in modern browsers that support import maps.
-
----
-
-## Access & Installation Protocol
-
-This project is designed to run directly in the browser without a package manager or build process.
-
-### Step 1: Clone Repository
-
-Clone this repository to your local machine.
-
-```bash
-git clone https://github.com/your-username/system-decode-magis.git
-cd system-decode-magis
+    class CH chola;
+    class FR fresa;
+    class MA malandra;
+    class B ballerina;
 ```
 
-### Step 2: API Key Configuration
+## 🚀 Instalación y Despliegue
 
-The system requires a Google Gemini API key to function. You can get one from [Google AI Studio](https://aistudio.google.com/app/apikey).
+### Requisitos
+*   Node.js v18+
+*   NPM o Yarn
+*   Una clave de API de Google Gemini (para funciones de IA)
 
-For security, the application is designed to use an environment variable. However, for ease of local testing, you can also set it via the in-app terminal.
+### Setup Local
 
-1.  **Primary Method (Recommended):** Set up a local `.env` file (this is gitignored) with your key. You will need a local server that can inject this variable.
-2.  **Local Testing Method:**
-    *   Launch the application.
-    *   Open the **TERM** window.
-    *   Type the following command and press Enter:
-        ```
-        login YOUR_API_KEY_HERE
-        ```
-    *   This will store the key in your browser's `localStorage` for the current session.
+1.  **Clonar el repositorio:**
+    ```bash
+    git clone <repo-url>
+    cd system_decode_magis
+    ```
 
-### Step 3: Launch Interface
+2.  **Instalar dependencias:**
+    ```bash
+    npm install
+    ```
 
-Since there's no build server, you need to serve the files using a simple local web server.
+3.  **Configurar Variables de Entorno:**
+    Crea un archivo `.env` en la raíz (ver `.env.example` si existiera, o usa el template abajo):
+    ```env
+    GEMINI_API_KEY=tu_api_key_aqui
+    ```
 
-If you have Python 3 installed:
-```bash
-python -m http.server
-```
+4.  **Iniciar Modo Desarrollo:**
+    ```bash
+    npm run dev
+    ```
 
-If you have Node.js installed, you can use `serve`:
-```bash
-npx serve .
-```
+### Despliegue (Vercel/Netlify)
 
-Navigate to `http://localhost:8000` (or the port specified by your server) in your browser.
+1.  Este proyecto está optimizado para **Vercel**.
+2.  Importa el repositorio.
+3.  Selecciona el preset **Vite**.
+4.  Define la variable de entorno `GEMINI_API_KEY`.
+5.  Deploy.
+
+## 🛡️ Seguridad y Performance
+
+*   **Sin secretos en repo:** `.gitignore` configurado estrictamente.
+*   **Modularidad:** Carga de componentes bajo demanda (Lazy Loading recomendado para módulos Fresa y Malandra en futuras iteraciones).
+*   **Optimización:** Build optimizado con Vite y separación de chunks para librerías pesadas como `@google/genai`.
+
+## 🎨 UX/UI & Customización
+
+El sistema utiliza **Tailwind CSS** con una configuración extendida para el tema "Cyberpunk/Neon".
+
+*   **Fuentes:** Rajdhani (Estructural), Share Tech Mono (Código).
+*   **Colores:** Neon Gold, Cyber Purple, Acid Green.
 
 ---
 
-## License
+### 📝 TODO / Próximos Pasos
 
-This project is distributed under the MIT License. See the `LICENSE` file for more information.
+1.  [ ] Recibir inputs visuales del usuario (Logos, Paletas específicas).
+2.  [ ] Implementar Lazy Loading en rutas.
+3.  [ ] Añadir tests E2E para flujos críticos (Malandra -> Fresa).
+
+---
+
+*Desarrollado con pasión cuántica por Jules.*

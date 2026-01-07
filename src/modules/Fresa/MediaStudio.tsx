@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { generateImage, generateVideo, generateSpeech, analyzeVideo, openApiKeySelection, checkApiKeySelection } from '../services/geminiService';
-import { MediaType } from '../types';
+import { generateImage, generateVideo, generateSpeech, analyzeVideo, openApiKeySelection, checkApiKeySelection } from '../../services/geminiService';
+import { MediaType } from '../../types';
 import { Video, Image as ImageIcon, Mic, Film } from 'lucide-react';
 
 const MediaStudio: React.FC = () => {

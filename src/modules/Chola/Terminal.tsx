@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { generateTextFast, generateSearchResponse } from '../services/geminiService';
+import { generateTextFast, generateSearchResponse } from '../../services/geminiService';
 
 const Terminal: React.FC = () => {
     const [history, setHistory] = useState<Array<{type: 'in' | 'out', text: string}>>([

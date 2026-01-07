@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { generateThinking } from '../services/geminiService';
-import { MatrixStats } from '../types';
+import { generateThinking } from '../../services/geminiService';
+import { MatrixStats } from '../../types';
 
 interface Props {
     stats: MatrixStats;
